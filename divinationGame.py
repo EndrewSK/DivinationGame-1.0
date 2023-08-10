@@ -1,70 +1,40 @@
-def install_and_import(package):
-    import importlib
-    try:
-        importlib.import_module(package)
-    except ImportError:
-        import pip
-        pip.main(['install', package])
-    finally:
-        globals()[package] = importlib.import_module(package)
-install_and_import('asciimatics')
-def install_and_import(package):
-    import importlib
-    try:
-        importlib.import_module(package)
-    except ImportError:
-        import pip
-        pip.main(['install', package])
-    finally:
-        globals()[package] = importlib.import_module(package)
-install_and_import('random')
-def install_and_import(package):
-    import importlib
-    try:
-        importlib.import_module(package)
-    except ImportError:
-        import pip
-        pip.main(['install', package])
-    finally:
-        globals()[package] = importlib.import_module(package)
-install_and_import('time')
-def install_and_import(package):
-    import importlib
-    try:
-        importlib.import_module(package)
-    except ImportError:
-        import pip
-        pip.main(['install', package])
-    finally:
-        globals()[package] = importlib.import_module(package)
-install_and_import('art')
-def install_and_import(package):
-    import importlib
-    try:
-        importlib.import_module(package)
-    except ImportError:
-        import pip
-        pip.main(['install', package])
-    finally:
-        globals()[package] = importlib.import_module(package)
-install_and_import('emoji')
+import subprocess
+import sys
+from os import system
 
-from asciimatics.effects import Print
-from asciimatics.particles import RingFirework, StarFirework, \
-    PalmFirework
-from asciimatics.renderers import FigletText, SpeechBubble
-from asciimatics.scene import Scene
-from asciimatics.screen import Screen
-from random import randint, choice
-import os
-import time
-import random
-import emoji
-from art import *
+try:
+    from asciimatics.effects import Print
+    from asciimatics.particles import RingFirework, StarFirework, \
+        PalmFirework
+    from asciimatics.renderers import FigletText, SpeechBubble
+    from asciimatics.scene import Scene
+    from asciimatics.screen import Screen
+    from random import randint, choice
+    from time import sleep
+    import random
+    import emoji
+    import art
+    
+except ImportError:
+    system('')
 
+    g = "\033[92m"
+    r = "\033[91m"
+    end = "\033[0m"
+
+    def install(packages):
+        for package in packages:
+            try:
+                subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+                print(f"{g}{package} foi instalado com sucesso!{end}")
+            except subprocess.CalledProcessError as err:
+                print(f"{r}Erro ao instalar {package}.{end}")
+                print(f"Erro: {err}")
+
+    install(['asciimatics', 'random', 'emoji', 'art', 'time'])
 
 cmd = 'mode 100,30'
-os.system(cmd)
+system(cmd)
 
 initial = 0
 final = 100
@@ -87,8 +57,8 @@ while True:
                     crt = input ("\n\n\tEstá correto?\n\t-> ")
                     if crt == "sim":
                         print (f"\n\n\n\n\tCerto {nickname}, vou falar as instruções para jogar! :)")
-                        time.sleep(3)
-                        os.system('cls')
+                        sleep(3)
+                        system('cls')
                         
                         def instructions():
                             while True:  
@@ -100,8 +70,8 @@ while True:
                                 print ("\n\t5 - Se acertar o número sorteado, o jogo acaba.")
                                 print ("\n\t6 - Só será aceito números inteiros.")
                                 print ("\n\n\n\t* Mensagem automática, a próxima tela será exibida em 20 segundos *")
-                                time.sleep(20)
-                                os.system('cls')
+                                sleep(20)
+                                system('cls')
                                 break
                             
                             while True:
@@ -109,15 +79,15 @@ while True:
                                     quest = int (input ("\n\n\n\n\n\t1 - Jogar\n\t2 - Ver as intruções novamente\n\t3 - Sair\n\t-> "))
                                 except ValueError as err:
                                     print("\n\tDigíte um Número inteiro!\n\n")
-                                    time.sleep(1)
-                                    os.system('cls')
+                                    sleep(1)
+                                    system('cls')
                                     continue
                                 if quest == 1:
-                                    os.system('cls')
+                                    system('cls')
                                     def game():
                                         sort = random.randrange(initial, final)
                                         tent = 7
-                                        gaming = text2art('''\n
+                                        gaming = art.text2art('''\n
    Jogo  da  Adivinhacao''', font="small")
                                         print(gaming)
                                         while True:
@@ -125,8 +95,8 @@ while True:
                                                 chute = int (input (f"\n\n\n\tChute um número de {initial} a {final}\n\t-> "))
                                             except ValueError as err:
                                                 print("\n\tDigíte um Número inteiro!\n\n")
-                                                time.sleep(1)
-                                                os.system('cls')
+                                                sleep(1)
+                                                system('cls')
                                                 continue
                                             if(chute>final or chute<initial):
                                                 tent -= 1
@@ -134,8 +104,8 @@ while True:
                                                 print("\tPerdeu uma tentativa hahaha")
                                                 print(f"\n\tRestantam {tent} tentativas")
                                                 print ("\n\n\n\t* Mensagem automática, a próxima tela será exibida em 7 segundos *")
-                                                time.sleep(7)
-                                                os.system('cls')
+                                                sleep(7)
+                                                system('cls')
                                                 print(gaming)
                                             elif(chute!=sort):
                                                 tent -= 1
@@ -146,23 +116,23 @@ while True:
                                                     print(f"\tO número sorteado é maior que {chute}")
                                                     print(f"\n\tRestantam {tent} tentativas")
                                                     print ("\n\n\n\t* Mensagem automática, a próxima tela será exibida em 7 segundos *")
-                                                    time.sleep(7)
-                                                    os.system('cls')
+                                                    sleep(7)
+                                                    system('cls')
                                                     print(gaming)
                                                 elif(chute>sort):
                                                     print(f"\tO número sorteado é menor que {chute}")
                                                     print(f"\n\tRestantam {tent} tentativas")
                                                     print ("\n\n\n\t* Mensagem automática, a próxima tela será exibida em 7 segundos *")
-                                                    time.sleep(7)
-                                                    os.system('cls')
+                                                    sleep(7)
+                                                    system('cls')
                                                     print(gaming)
                                             elif(chute==sort):
                                                     print(f"\n\n\n\tboaa, você acertou {nickname}!")
                                                     print("\tParabéns, você é demais!")
                                                     print("\tOlha, não esperava que você fosse acertar...\n\tMas me surpreendeu haha\n")
                                                     print ("\n\n\n\t* Mensagem automática, a próxima tela será exibida em 7 segundos *")
-                                                    time.sleep(7)
-                                                    os.system('cls')
+                                                    sleep(7)
+                                                    system('cls')
                                                     def demo(screen):
                                                         scenes = []
                                                             
@@ -197,64 +167,64 @@ while True:
                                                 print("\tNem tenta denovo, você não consegue")
                                                 print(f"\n\t o número era {sort}")
                                                 print ("\n\n\n\t* Mensagem automática, a próxima tela será exibida em 10 segundos *")
-                                                loser = text2art('''\n
+                                                loser = art.text2art('''\n
     Loser''', font="slant")
                                                 print(loser)
-                                                time.sleep(10)
-                                                os.system('cls')
+                                                sleep(10)
+                                                system('cls')
                                                 break
                                         while True:
                                             again = int (input ("\n\n\n\t1 - Jogar novamente\n\t2 - Ver as intruções\n\t3 - Sair\n\t-> "))
                                             if again == 1:
-                                                time.sleep(1)
-                                                os.system('cls')
+                                                sleep(1)
+                                                system('cls')
                                                 return game()
                                             
                                             elif again == 2:
-                                                time.sleep(1)
-                                                os.system('cls')
+                                                sleep(1)
+                                                system('cls')
                                                 return instructions()
                                             
                                             elif again == 3:
                                                 print (emoji.emojize("\n\n\tAté mais! :face_blowing_a_kiss:"))
-                                                Art2 = text2art('''\n\n\n\n\n\n\n\n\n
+                                                Art2 = art.text2art('''\n\n\n\n\n\n\n\n\n
  --- Fim ---''', font="slant")
                                                 print(Art2)
-                                                time.sleep(3)
-                                                os.system('cls')
+                                                sleep(3)
+                                                system('cls')
                                                 exit()
                                                 
                                             else:
                                                 print ("\n\n\n\tOpção inválida!")
-                                                time.sleep(2)
-                                                os.system('cls')
+                                                sleep(2)
+                                                system('cls')
                                                 continue
                                     game()
                                     break
                                 
                                 elif quest == 2:
-                                    os.system('cls')
+                                    system('cls')
                                     return instructions()
                                 
                                 elif quest == 3:
                                     print (emoji.emojize("\n\n\tAté mais! :face_blowing_a_kiss:"))
-                                    Art = text2art('''\n\n\n\n\n\n\n\n\n
+                                    Art = art.text2art('''\n\n\n\n\n\n\n\n\n
  --- Fim ---''', font="slant")
                                     print(Art)
-                                    time.sleep(3)
-                                    os.system('cls')
+                                    sleep(3)
+                                    system('cls')
                                     exit()
                                 else:
                                     print ("\n\n\n\tOpção inválida!")
-                                    time.sleep(2)
-                                    os.system('cls')
+                                    sleep(2)
+                                    system('cls')
                                     continue
                         instructions()
                         break
                     
                     elif crt == "nao":
-                        time.sleep(1)
-                        os.system('cls')
+                        sleep(1)
+                        system('cls')
                         print ("\n\n\n\n\t\t", "*"*57)
                         print ("\n\t\t\t  Seja bem-vindo(a) ao jogo de adivinhacão!")
                         print ("\n\t\t", "*"*57)
@@ -263,8 +233,8 @@ while True:
                     else:
                         print ("\n\n\n\n\tDesculpe, não entendi")
                         print ("\tDigite \"sim\" ou \"não\"\n")
-                        time.sleep(2)
-                        os.system('cls')
+                        sleep(2)
+                        system('cls')
                         continue
     welcome()
     name()
